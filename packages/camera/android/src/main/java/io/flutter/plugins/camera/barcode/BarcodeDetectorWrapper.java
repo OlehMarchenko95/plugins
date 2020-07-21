@@ -26,9 +26,7 @@ public class BarcodeDetectorWrapper {
 
     public BarcodeDetectorWrapper(final int barcodeFormats, final long throttle) {
         this.throttle = throttle;
-        final FirebaseVisionBarcodeDetectorOptions options = new FirebaseVisionBarcodeDetectorOptions.Builder()
-                .setBarcodeFormats(barcodeFormats)
-                .build();
+        final FirebaseVisionBarcodeDetectorOptions options = new FirebaseVisionBarcodeDetectorOptions.Builder().setBarcodeFormats(barcodeFormats).build();
         detector = FirebaseVision.getInstance().getVisionBarcodeDetector(options);
     }
 
@@ -42,21 +40,13 @@ public class BarcodeDetectorWrapper {
 
     public void detect(Image image, int rotation) {
         final long currentTime = System.currentTimeMillis();
-        System.out.println("current");
-        System.out.println(currentTime);
-        System.out.println("last");
-        System.out.println(lastDetectionTime);
-        System.out.println(lastDetectionTime + throttle > currentTime);
         if (isDetecting || lastDetectionTime + throttle > currentTime) {
-            System.out.println("skipped");
             return;
         }
         isDetecting = true;
         lastDetectionTime = currentTime;
 
-        detector.detectInImage(FirebaseVisionImage.fromMediaImage(image, degreesToFirebaseRotation(rotation)))
-                .addOnSuccessListener(resultListener)
-                .addOnFailureListener(resultListener);
+        detector.detectInImage(FirebaseVisionImage.fromMediaImage(image, degreesToFirebaseRotation(rotation))).addOnSuccessListener(resultListener).addOnFailureListener(resultListener);
     }
 
     private int degreesToFirebaseRotation(int degrees) {
