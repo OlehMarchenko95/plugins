@@ -39,8 +39,11 @@ public class BarcodeDetectorWrapper {
     }
 
     public void detect(Image image, int rotation) {
+        if (isDetecting) {
+            return;
+        }
         final long currentTime = System.currentTimeMillis();
-        if (isDetecting || lastDetectionTime + throttle > currentTime) {
+        if(lastDetectionTime + throttle > currentTime){
             return;
         }
         isDetecting = true;
