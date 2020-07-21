@@ -42,7 +42,13 @@ public class BarcodeDetectorWrapper {
 
     public void detect(Image image, int rotation) {
         final long currentTime = System.currentTimeMillis();
+        System.out.println("current");
+        System.out.println(currentTime);
+        System.out.println("last");
+        System.out.println(lastDetectionTime);
+        System.out.println(lastDetectionTime + throttle > currentTime);
         if (isDetecting || lastDetectionTime + throttle > currentTime) {
+            System.out.println("skipped");
             return;
         }
         isDetecting = true;
